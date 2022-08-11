@@ -22,7 +22,7 @@ router.get('/:contactId', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  const body = await req.body;
+  const body = req.body;
   const newContact = await addContact(body);
   res.status(201).json(newContact);
 });
@@ -35,14 +35,23 @@ router.delete('/:contactId', async (req, res, next) => {
     res.status(404).json({ message: 'not found' });
     return;
   }
-
-  res.status(200).json({
-    message: `Contact with  id: ${contact.id}, name: ${contact.name}, email: ${contact.email}, phone: ${contact.phone} was removed`,
-  });
+  res.status(204).json({ message: `Contact was removed`, contact });
 });
 
 router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' });
+  const { contactId } = req.params;
+  const body = req.body;
+  console.log(body);
+  if (!body) {
+    res.status(400).json({ message: 'missing fields' });
+    return;
+  }
+  const contact = await updateContact(contactId, body);
+  if (!contact) {
+    res.status(404).json({ message: 'not found' });
+    return;
+  }
+  res.status(200).json({ message: 'Contact was updated to:', contact });
 });
 
 module.exports = router;
