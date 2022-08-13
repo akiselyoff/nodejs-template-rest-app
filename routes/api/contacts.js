@@ -10,32 +10,48 @@ const {
 } = require('../../models/contacts');
 
 router.get('/', async (req, res, next) => {
-  const data = await listContacts();
-  res.status(200).json(data);
+  try {
+    const data = await listContacts();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 router.get('/:contactId', async (req, res, next) => {
-  const { contactId } = req.params;
-  const contact = await getContactById(contactId);
-  if (!contact) res.status(404).json({ message: 'not found' });
-  res.status(200).json(contact);
+  try {
+    const { contactId } = req.params;
+    const contact = await getContactById(contactId);
+    if (!contact) res.status(404).json({ message: 'Not found' });
+    res.status(200).json(contact);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 router.post('/', async (req, res, next) => {
-  const body = req.body;
-  const newContact = await addContact(body);
-  res.status(201).json(newContact);
+  try {
+    const body = req.body;
+    const newContact = await addContact(body);
+    res.status(201).json(newContact);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 router.delete('/:contactId', async (req, res, next) => {
-  const { contactId } = req.params;
-  const contact = await removeContact(contactId);
-  console.log(contact);
-  if (!contact) {
-    res.status(404).json({ message: 'not found' });
-    return;
+  try {
+    const { contactId } = req.params;
+    const contact = await removeContact(contactId);
+    console.log(contact);
+    if (!contact) {
+      res.status(404).json({ message: 'not found' });
+      return;
+    }
+    res.status(200).json({ message: 'Contact was removed', contact });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
   }
-  res.status(204).json({ message: `Contact was removed`, contact });
 });
 
 router.put('/:contactId', async (req, res, next) => {
