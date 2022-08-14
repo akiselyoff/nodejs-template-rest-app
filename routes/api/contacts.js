@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
+const { RequestError } = require('../../helpers');
 
 const {
   listContacts,
@@ -24,7 +25,8 @@ router.get('/', async (req, res, next) => {
     const data = await listContacts();
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    const { status = 500, message = 'Server error' } = error;
+    res.status(status).json({ message });
   }
 });
 
@@ -32,10 +34,12 @@ router.get('/:contactId', async (req, res, next) => {
   try {
     const { contactId } = req.params;
     const contact = await getContactById(contactId);
-    if (!contact) res.status(404).json({ message: 'Not found' });
+    // if (!contact) res.status(404).json({ message: 'Not found' });
+    if (!contact) throw RequestError(404, 'Not found');
     res.status(200).json(contact);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    const { status = 500, message = 'Server error' } = error;
+    res.status(status).json({ message });
   }
 });
 
@@ -46,7 +50,8 @@ router.post('/', async (req, res, next) => {
     const newContact = await addContact(req.body);
     res.status(201).json(newContact);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    const { status = 500, message = 'Server error' } = error;
+    res.status(status).json({ message });
   }
 });
 
@@ -58,7 +63,8 @@ router.delete('/:contactId', async (req, res, next) => {
     if (!contact) res.status(404).json({ message: 'not found' });
     res.status(200).json({ message: 'Contact was removed', contact }); // status 200 - because 204 do not return a message
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    const { status = 500, message = 'Server error' } = error;
+    res.status(status).json({ message });
   }
 });
 
@@ -78,7 +84,8 @@ router.put('/:contactId', async (req, res, next) => {
     }
     res.status(200).json({ message: 'Contact was updated to:', contact });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    const { status = 500, message = 'Server error' } = error;
+    res.status(status).json({ message });
   }
 });
 
