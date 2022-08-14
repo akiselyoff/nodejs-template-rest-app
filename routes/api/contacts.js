@@ -25,8 +25,7 @@ router.get('/', async (req, res, next) => {
     const data = await listContacts();
     res.status(200).json(data);
   } catch (error) {
-    const { status = 500, message = 'Server error' } = error;
-    res.status(status).json({ message });
+    next(error);
   }
 });
 
@@ -38,8 +37,7 @@ router.get('/:contactId', async (req, res, next) => {
     if (!contact) throw RequestError(404, 'Not found');
     res.status(200).json(contact);
   } catch (error) {
-    const { status = 500, message = 'Server error' } = error;
-    res.status(status).json({ message });
+    next(error);
   }
 });
 
@@ -50,8 +48,7 @@ router.post('/', async (req, res, next) => {
     const newContact = await addContact(req.body);
     res.status(201).json(newContact);
   } catch (error) {
-    const { status = 500, message = 'Server error' } = error;
-    res.status(status).json({ message });
+    next(error);
   }
 });
 
@@ -63,8 +60,7 @@ router.delete('/:contactId', async (req, res, next) => {
     if (!contact) res.status(404).json({ message: 'not found' });
     res.status(200).json({ message: 'Contact was removed', contact }); // status 200 - because 204 do not return a message
   } catch (error) {
-    const { status = 500, message = 'Server error' } = error;
-    res.status(status).json({ message });
+    next(error);
   }
 });
 
@@ -84,8 +80,7 @@ router.put('/:contactId', async (req, res, next) => {
     }
     res.status(200).json({ message: 'Contact was updated to:', contact });
   } catch (error) {
-    const { status = 500, message = 'Server error' } = error;
-    res.status(status).json({ message });
+    next(error);
   }
 });
 
