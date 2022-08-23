@@ -17,10 +17,11 @@ router.post(
 
 // router.delete('/:contactId', controllerWrapper(controllers.removeById));
 
-// router.put(
-//   '/:contactId',
-//   validationBody(schemas.add),
-//   controllerWrapper(controllers.updateById)
-// );
+router.put(
+  '/:contactId',
+  // isValidId,
+  validationBody(schemas.contactAddSchema),
+  controllerWrapper(controllers.updateById)
+);
 
 module.exports = router;
