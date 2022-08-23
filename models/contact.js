@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { handleSchemaValidationError } = require('../helpers');
 const Joi = require('joi');
 
 const phoneRegex = /^\(0\d{2}\)\s\d{3}-\d{2}-\d{2}$/;
@@ -43,6 +44,8 @@ const contactSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
+contactSchema.post('save', handleSchemaValidationError);
 
 const Contact = model('contact', contactSchema); // mongoose сам превращает во множ число contact в contacts
 
