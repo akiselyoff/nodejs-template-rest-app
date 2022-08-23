@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const controllers = require('../../controllers/contacts');
 const { controllerWrapper } = require('../../helpers');
-const { validationBody } = require('../../middlewares');
+const { validationBody, isValidId } = require('../../middlewares');
 const { schemas } = require('../../models/contact');
 
-// router.get('/', controllerWrapper(controllers.getAll));
+router.get('/', controllerWrapper(controllers.getAll));
 
-// router.get('/:contactId', controllerWrapper(controllers.getById));
+router.get('/:contactId', isValidId, controllerWrapper(controllers.getById));
 
 router.post(
   '/',
