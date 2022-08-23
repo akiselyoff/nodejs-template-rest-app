@@ -20,7 +20,9 @@ const contactAddSchema = Joi.object({
     .required(),
 });
 
-const schemas = { contactAddSchema };
+const updateFavoriteSchema = Joi.object({ favorite: Joi.bool().required() });
+
+const schemas = { contactAddSchema, updateFavoriteSchema };
 
 const contactSchema = new Schema(
   {

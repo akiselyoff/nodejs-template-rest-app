@@ -15,13 +15,24 @@ router.post(
   controllerWrapper(controllers.add)
 );
 
-// router.delete('/:contactId', controllerWrapper(controllers.removeById));
+router.delete(
+  '/:contactId',
+  isValidId,
+  controllerWrapper(controllers.removeById)
+);
 
 router.put(
   '/:contactId',
-  // isValidId,
+  isValidId,
   validationBody(schemas.contactAddSchema),
   controllerWrapper(controllers.updateById)
+);
+
+router.patch(
+  '/:contactId/favorite',
+  isValidId,
+  validationBody(schemas.updateFavoriteSchema),
+  controllerWrapper(controllers.updateFavorite)
 );
 
 module.exports = router;
