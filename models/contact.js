@@ -6,15 +6,19 @@ const Joi = require('joi');
 const contactAddSchema = Joi.object({
   name: Joi.string().min(2).alphanum().required(),
   phone: Joi.string()
-    .regex(phoneRegex)
+    .pattern(phoneRegex)
     .message(
       'Wrong format! Should be like a phone number schema: (067) 995-33-68'
     )
     .required(),
   email: Joi.string()
-    .regex(mailRegex)
+    .pattern(mailRegex)
     .message('Wrong format! Should be like a mail schema: example@mail.com')
     .required(),
+  // owner: {
+  //   type: SchemaTypes.ObjectId,
+  //   ref: 'user',
+  // },
 });
 
 const updateFavoriteSchema = Joi.object({ favorite: Joi.bool().required() });

@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { handleSchemaValidationError } = require('../helpers');
-const { mailRegex } = require('../share/variables');
+const { mailRegex, passwordRegex } = require('../share/variables');
 const Joi = require('joi');
 
 const userSchema = new Schema(
@@ -8,7 +8,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required'],
-      //   match: passwordRegex,
+      match: passwordRegex,
     },
     email: {
       type: String,
@@ -21,10 +21,7 @@ const userSchema = new Schema(
       enum: ['starter', 'pro', 'business'],
       default: 'starter',
     },
-    // owner: {
-    //   type: SchemaTypes.ObjectId,
-    //   ref: 'user',
-    // },
+
     token: {
       type: String,
       default: null,
@@ -39,16 +36,21 @@ const User = model('user', userSchema);
 
 const registrationSchema = Joi.object({
   email: Joi.string()
-    .regex(mailRegex)
+    .pattern(mailRegex)
     .message('Wrong format! Should be like a mail schema: example@mail.com')
     .required(),
   password: Joi.string()
-    // .regex(passwordRegex)
+    .pattern(passwordRegex)
+    .message(
+      'Wrong format! Should be minimum eight characters, at least one letter, one number and one special character @$!%*#?&'
+    )
     .required(),
-  // .message(
-  //   'Wrong format! Should be minimum eight characters, at least one letter, one number and one special character @$!%*#?&'
-  // ),
-  repeatPassword: Joi.ref('password'),
+
+  subscription: Joi.string().valid('starter', 'pro', 'business'),
+  token: {
+    type: String,
+    default: null,
+  },
 });
 
 const schemas = {
