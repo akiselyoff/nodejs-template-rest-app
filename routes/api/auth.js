@@ -11,4 +11,11 @@ router.post(
   controllerWrapper(controllers.registration)
 );
 
+// loginSchema a same schema with registrationSchema
+router.post(
+  '/login',
+  validationBody(schemas.loginSchema),
+  controllerWrapper(controllers.login)
+);
+
 module.exports = router;

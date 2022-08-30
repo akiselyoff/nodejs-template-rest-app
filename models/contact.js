@@ -16,7 +16,7 @@ const contactAddSchema = Joi.object({
     .message('Wrong format! Should be like a mail schema: example@mail.com')
     .required(),
   // owner: {
-  //   type: SchemaTypes.ObjectId,
+  //   type: mongodb.Schema.Types.ObjectId,
   //   ref: 'user',
   // },
 });

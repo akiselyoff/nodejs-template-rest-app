@@ -21,7 +21,6 @@ const userSchema = new Schema(
       enum: ['starter', 'pro', 'business'],
       default: 'starter',
     },
-
     token: {
       type: String,
       default: null,
@@ -45,7 +44,6 @@ const registrationSchema = Joi.object({
       'Wrong format! Should be minimum eight characters, at least one letter, one number and one special character @$!%*#?&'
     )
     .required(),
-
   subscription: Joi.string().valid('starter', 'pro', 'business'),
   token: {
     type: String,
@@ -55,6 +53,7 @@ const registrationSchema = Joi.object({
 
 const schemas = {
   registrationSchema,
+  loginSchema: registrationSchema,
 };
 
 module.exports = {
