@@ -15,10 +15,6 @@ const contactAddSchema = Joi.object({
     .pattern(mailRegex)
     .message('Wrong format! Should be like a mail schema: example@mail.com')
     .required(),
-  // owner: {
-  //   type: mongodb.Schema.Types.ObjectId,
-  //   ref: 'user',
-  // },
 });
 
 const updateFavoriteSchema = Joi.object({ favorite: Joi.bool().required() });
@@ -39,6 +35,10 @@ const contactSchema = new Schema(
     phone: {
       type: String,
       match: phoneRegex,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
     favorite: {
       type: Boolean,
