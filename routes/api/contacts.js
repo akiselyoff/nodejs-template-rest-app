@@ -9,7 +9,7 @@ const {
 } = require('../../middlewares');
 const { schemas } = require('../../models/contact');
 
-router.get('/', controllerWrapper(controllers.getAll));
+router.get('/', authenticate, controllerWrapper(controllers.getAll));
 
 router.get('/:contactId', isValidId, controllerWrapper(controllers.getById));
 
