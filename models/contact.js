@@ -1,21 +1,18 @@
 const { Schema, model } = require('mongoose');
 const { handleSchemaValidationError } = require('../helpers');
+const { phoneRegex, mailRegex } = require('../share/variables');
 const Joi = require('joi');
-
-const phoneRegex = /^\(0\d{2}\)\s\d{3}-\d{2}-\d{2}$/;
-const mailRegex =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const contactAddSchema = Joi.object({
   name: Joi.string().min(2).alphanum().required(),
   phone: Joi.string()
-    .regex(phoneRegex)
+    .pattern(phoneRegex)
     .message(
       'Wrong format! Should be like a phone number schema: (067) 995-33-68'
     )
     .required(),
   email: Joi.string()
-    .regex(mailRegex)
+    .pattern(mailRegex)
     .message('Wrong format! Should be like a mail schema: example@mail.com')
     .required(),
 });
@@ -38,6 +35,10 @@ const contactSchema = new Schema(
     phone: {
       type: String,
       match: phoneRegex,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
     favorite: {
       type: Boolean,
