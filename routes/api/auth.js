@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { controllerWrapper } = require('../../helpers');
-const controllers = require('../../controllers/auth');
+const controllers = require('../../controllers/users');
 const { validationBody, authenticate } = require('../../middlewares');
 const { schemas } = require('../../models/user');
 
