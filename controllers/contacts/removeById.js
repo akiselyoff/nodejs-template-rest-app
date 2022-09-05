@@ -3,11 +3,9 @@ const { RequestError } = require('../../helpers');
 
 const removeById = async (req, res) => {
   const { _id: owner } = req.user;
-  console.log(owner);
   const { contactId } = req.params;
   const contact = await Contact.findById(contactId);
   if (!contact) throw RequestError(404, 'Not found');
-  console.log(contact.owner);
   if (owner.toString() !== contact.owner.toString()) {
     throw RequestError(403, 'Forbidden');
   }
