@@ -9,9 +9,13 @@ const updateById = async (req, res) => {
   if (owner.toString() !== contact.owner.toString()) {
     throw RequestError(403, 'Forbidden');
   }
-  const updateContact = await Contact.findOneAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const updateContact = await Contact.findOneAndUpdate(
+    contactId,
+    { ...req.body, owner },
+    {
+      new: true,
+    }
+  );
   res.status(200).json({ message: 'Contact was updated to:', updateContact });
 };
 
