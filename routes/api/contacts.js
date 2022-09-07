@@ -11,7 +11,12 @@ const { schemas } = require('../../models/contact');
 
 router.get('/', authenticate, controllerWrapper(controllers.getAll));
 
-router.get('/:contactId', isValidId, controllerWrapper(controllers.getById));
+router.get(
+  '/:contactId',
+  authenticate,
+  isValidId,
+  controllerWrapper(controllers.getById)
+);
 
 router.post(
   '/',
@@ -22,12 +27,14 @@ router.post(
 
 router.delete(
   '/:contactId',
+  authenticate,
   isValidId,
   controllerWrapper(controllers.removeById)
 );
 
 router.put(
   '/:contactId',
+  authenticate,
   isValidId,
   validationBody(schemas.contactAddSchema),
   controllerWrapper(controllers.updateById)
@@ -35,6 +42,7 @@ router.put(
 
 router.patch(
   '/:contactId/favorite',
+  authenticate,
   isValidId,
   validationBody(schemas.updateFavoriteSchema),
   controllerWrapper(controllers.updateFavorite)
