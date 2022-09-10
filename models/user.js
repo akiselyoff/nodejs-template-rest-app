@@ -63,9 +63,17 @@ const registrationSchema = Joi.object({
   },
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string()
+    .pattern(mailRegex)
+    .message('Wrong format! Should be like a mail schema: example@mail.com')
+    .required(),
+});
+
 const schemas = {
   registrationSchema,
   loginSchema: registrationSchema,
+  verifyEmailSchema,
 };
 
 module.exports = {
