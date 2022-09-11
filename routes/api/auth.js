@@ -12,12 +12,12 @@ router.post(
 );
 
 router.get(
-  './verify/:verificationToken',
+  '/verify/:verificationToken',
   controllerWrapper(controllers.verifyEmail)
 );
 
 router.post(
-  './verify',
+  '/verify',
   validationBody(schemas.verifyEmailSchema),
   controllerWrapper(controllers.resendVerifyEmail)
 );

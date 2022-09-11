@@ -1,7 +1,7 @@
 const { User } = require('../../models/user');
 const { RequestError, sendEmail } = require('../../helpers');
 
-const { sendEmailUseGmail } = sendEmail;
+const { sendEmailUseSendgrid } = sendEmail;
 
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
@@ -12,9 +12,9 @@ const resendVerifyEmail = async (req, res) => {
   const mail = {
     to: email,
     subject: 'Re-confirmation registration',
-    html: `<a href="http:localhost:3000/api/auth/verify/${user.verificationToken}" target="_blank">Click this link to confirm</a>`,
+    html: `<a href="http://localhost:3000/api/auth/verify/${user.verificationToken}" target="_blank">Click this link to confirm</a>`,
   };
-  await sendEmailUseGmail(mail);
+  await sendEmailUseSendgrid(mail);
   res.json({ message: 'Verification email re-sent' });
 };
 
