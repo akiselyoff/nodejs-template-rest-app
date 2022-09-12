@@ -21,6 +21,14 @@ const userSchema = new Schema(
       enum: ['starter', 'pro', 'business'],
       default: 'starter',
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
     token: {
       type: String,
       default: null,
@@ -55,9 +63,17 @@ const registrationSchema = Joi.object({
   },
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string()
+    .pattern(mailRegex)
+    .message('Wrong format! Should be like a mail schema: example@mail.com')
+    .required(),
+});
+
 const schemas = {
   registrationSchema,
   loginSchema: registrationSchema,
+  verifyEmailSchema,
 };
 
 module.exports = {
